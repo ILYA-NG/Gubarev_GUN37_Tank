@@ -14,6 +14,7 @@ public class TankMovement : MonoBehaviour
     public List<AxleInfo> axleInfos;  // Информация по каждой оси
     public float maxMotorTorque = 1500f;    // Максимальный крутящий момент
     public float maxSteeringAngle = 30f;    // Максимальный угол поворота колес
+    public float fallThreshold = -10f; // Порог высоты падения
 
     void FixedUpdate()
     {
@@ -52,4 +53,14 @@ public class TankMovement : MonoBehaviour
         visualWheel.transform.position = position;
         visualWheel.transform.rotation = rotation;
     }
+
+    void Update()
+    {
+        if (transform.position.y < fallThreshold)
+        {
+            // Перезагрузить текущую сцену
+            FindObjectOfType<GameManager>().EndGame();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }    
 }
